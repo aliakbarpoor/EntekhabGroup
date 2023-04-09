@@ -5,18 +5,27 @@ using System.Text;
 
 namespace Domain.Services
 {
-    public class OvetimePolicyService : IOvetimePolicyService
+    public class OvetimePolicyService : IOvertimePolicyService
     {
         const int MonthlyWorkingHours = 220;
-        private readonly int _basicSalary;
-        private readonly int _allowance;
-        private readonly int _overTimeHuors;
+        private double _basicSalary;
+        private double _allowance;
+        private double _overTimeHuors;
 
-        public OvetimePolicyService(int basicSalary, int allowance, int overTimeHuors)
+
+        public OvetimePolicyService()
+        {
+            
+        }
+
+
+        public OvetimePolicyService FactoryMethod(int basicSalary, int allowance, int overTimeHuors)
         {
             _basicSalary = basicSalary;
             _allowance = allowance;
             _overTimeHuors = overTimeHuors;
+
+            return new OvetimePolicyService { _allowance = allowance, _basicSalary = basicSalary, _overTimeHuors = overTimeHuors };
         }
         public double CalcurlatorA()
         {
@@ -35,7 +44,7 @@ namespace Domain.Services
             throw new NotImplementedException();
         }
 
-        int IOvetimePolicyService.CalcurlatorA()
+        int IOvertimePolicyService.CalcurlatorA()
         {
             throw new NotImplementedException();
         }
