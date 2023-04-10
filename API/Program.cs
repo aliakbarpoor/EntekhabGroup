@@ -1,27 +1,47 @@
+using API.Extentions;
+using API.Formatters;
+using API.Services;
 using Domain;
 using Infrustracture;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.Net.Http.Headers;
 
-// Add services to the container.
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<EFContext>(options =>
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("AppConnectionString")));
+        // Add services to the container.
+
+        builder.Services.AddDbContext<EFContext>(options =>
+                            options.UseSqlServer(builder.Configuration.GetConnectionString("AppConnectionString")));
+
+        builder.Services.AddScoped<ISalaryService, SalaryService>();
+        builder.Services.ConfigureApplicationServices();
 
 
-ApplicationServicesRegistration.ConfigureApplicationServices(builder.Services);
-
-builder.Services.AddControllers();
 
 
-var app = builder.Build();
+        builder.Services.AddControllers(opt =>
+        {
+            opt.OutputFormatters.Insert(0, new CustomOutputFormatter());
+            opt.InputFormatters.Insert(0, new CustomInputFormatter());
+            opt.FormatterMappings.SetMediaTypeMappingForFormat("cu-for", MediaTypeHeaderValue.Parse("text/cu-for"));
 
-// Configure the HTTP request pipeline.
+        })
+            .AddXmlSerializerFormatters();
 
-app.UseAuthorization();
 
-app.MapControllers();
+        var app = builder.Build();
 
-app.Run();
+        // Configure the HTTP request pipeline.
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.Run();
+    }
+}

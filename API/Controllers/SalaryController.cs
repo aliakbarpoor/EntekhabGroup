@@ -1,34 +1,90 @@
-﻿using AutoMapper;
+﻿using API.DTOs;
+using API.Enums;
+using API.Services;
+using AutoMapper;
+using Domain.DTOs;
 using Domain.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace API.Controllers
 {
-    [Route("{datatype}/[controller]")]
+    [Route("{format}/[controller]")]
     [ApiController]
+    [FormatFilter]
     public class SalaryController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IOvertimePolicyService _ovetimePolicyService;
+        private readonly ISalaryService _salaryService;
 
-        public SalaryController(IMapper mapper, IOvertimePolicyService ovetimePolicyService)
+        public SalaryController(IMapper mapper, ISalaryService salaryService)
         {
             _mapper = mapper;
-            _ovetimePolicyService = ovetimePolicyService;
+            _salaryService = salaryService;
         }
 
 
-        [HttpGet("add")]
-        public string Add(string datatype)
+
+        [HttpPost("Add")]
+        public async Task<IActionResult> Get([FromBody] AddRequestDto addRequest)
         {
-            //var p = _ovetimePolicyService.FactoryMethod(5000000, 2000000, 40);
 
-            //var r = p.CalcurlatorA();
 
-            return datatype;
+            var salaryDto = await _salaryService.Add(addRequest.Data, addRequest.OverTimeCalculator);
+
+
+            return Ok(salaryDto);
+
         }
+
+
+
+
+
+        [HttpGet("get/{id}")]
+        public async Task<IActionResult> Get( int id)
+        {
+
+        var salary=  await  _salaryService.Get(id);
+
+            return Ok(salary);
+
+        }
+
+        [HttpGet("get-range/{id}")]
+        public async Task<IActionResult> GetRange([FromQuery] int id, string start,string end)
+        {
+
+            return Ok();
+
+        }
+
+
+        [HttpPut("update")]
+        public async Task<IActionResult> Update()
+        {
+
+            return Ok(new string[] { "value1", "value2" });
+
+        }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Dete()
+        {
+
+            return Ok(new string[] { "value1", "value2" });
+
+        }
+
+
+
+
+
+
 
 
         //// GET: api/<SalaryController>

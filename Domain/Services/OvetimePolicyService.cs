@@ -19,7 +19,7 @@ namespace Domain.Services
         }
 
 
-        public OvetimePolicyService FactoryMethod(int basicSalary, int allowance, int overTimeHuors)
+        public OvetimePolicyService FactoryMethod(double basicSalary, double allowance, int overTimeHuors)
         {
             _basicSalary = basicSalary;
             _allowance = allowance;
