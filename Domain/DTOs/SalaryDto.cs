@@ -11,10 +11,10 @@ namespace Domain.DTOs
         public double BasicSalary { get; set; }
         public double Allowance { get; set; }
         public double Transportation { get; set; }
-        public int OveTime { get; set; }
+        public int OverTime { get; set; }
         public double OveTimeGrossValue { get; set; }
         public double TotalGorssValue => BasicSalary + Allowance + OveTimeGrossValue;
-        public DateTimeOffset Date { get; set; } = DateTimeOffset.Now;
+        public string Date { get; set; }= string.Empty;
 
     }
 }

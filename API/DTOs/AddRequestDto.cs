@@ -6,6 +6,7 @@ namespace API.DTOs
     {
         public SalaryDto Data { get; set; } = new();
 
+
         public string OverTimeCalculator { get; set; } = string.Empty;
 
 

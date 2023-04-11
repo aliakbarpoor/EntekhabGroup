@@ -1,5 +1,4 @@
-﻿using API.Enums;
-using Domain.DTOs;
+﻿using Domain.DTOs;
 
 namespace API.Services
 {

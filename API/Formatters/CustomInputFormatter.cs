@@ -1,5 +1,7 @@
 ﻿namespace API.Formatters
 {
+    using API.DTOs;
+    using Domain.DTOs;
     using Domain.Entities;
     using Microsoft.AspNetCore.Mvc.Formatters;
     using Microsoft.Net.Http.Headers;
@@ -12,7 +14,7 @@
     {
         public CustomInputFormatter()
         {
-            SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/cu-for"));
+            SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/custom"));
 
             SupportedEncodings.Add(Encoding.UTF8);
             SupportedEncodings.Add(Encoding.Unicode);
@@ -21,7 +23,7 @@
 
         protected override bool CanReadType(Type type)
         {
-            if (type == typeof(Salary))
+            if (type == typeof(AddRequestDto))
             {
                 return base.CanReadType(type);
             }
@@ -45,22 +47,41 @@
             {
                 try
                 {
-                    var line = await reader.ReadLineAsync();
 
+                    await reader.ReadLineAsync();
+                    var headerLine = await reader.ReadLineAsync();
+                    var dataline = await reader.ReadLineAsync();
+                    var calculatorLine = await reader.ReadLineAsync();
 
-                    var split = line.Substring(line.IndexOf("Data:") + 5).Split(new char[] { '/' });
-                    var salary = new Salary()
+                    var split = dataline.Replace("\",", string.Empty)?.Split(new char[] { '/' });
+
+                    var calculator = calculatorLine.Substring(27, 11);
+
+                    var salary = new SalaryDto()
+
                     {
-                        Id = Convert.ToInt32(split[0]),
-                        FullName = split[1],
-                        BasicSalary = Convert.ToDouble( split[2]),
-                        Allowance = Convert.ToDouble(split[3]),
-                        Transportation = Convert.ToDouble(split[4]),
-                        Date = Convert.ToDateTime( split[5])
+
+                        FullName = split[0].Trim(),
+                        BasicSalary = Convert.ToDouble(split[1]),
+                        Allowance = Convert.ToDouble(split[2]),
+                        Transportation = Convert.ToDouble(split[3]),
+                        OverTime=Convert.ToInt32(split[4]),
+                        Date = split[5]
 
                     };
 
-                    return await InputFormatterResult.SuccessAsync(salary);
+
+
+                    var addRequest = new AddRequestDto()
+
+                    {
+
+                        Data = salary,
+                        OverTimeCalculator = calculator
+
+                    };
+
+                    return await InputFormatterResult.SuccessAsync(addRequest);
                 }
                 catch
                 {

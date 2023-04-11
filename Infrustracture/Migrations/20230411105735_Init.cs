@@ -5,7 +5,7 @@
 namespace Infrustracture.Migrations
 {
     /// <inheritdoc />
-    public partial class Int : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,12 +16,13 @@ namespace Infrustracture.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EnployeeId = table.Column<int>(type: "int", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BasicSalary = table.Column<double>(type: "float", nullable: false),
                     Allowance = table.Column<double>(type: "float", nullable: false),
                     Transportation = table.Column<double>(type: "float", nullable: false),
-                    GorssValue = table.Column<double>(type: "float", nullable: false),
-                    OveTime = table.Column<double>(type: "float", nullable: false)
+                    OverTime = table.Column<int>(type: "int", nullable: false),
+                    OveTimeGrossValue = table.Column<double>(type: "float", nullable: false),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,8 +1,9 @@
 ﻿using API.DTOs;
-using API.Enums;
+
 using API.Services;
 using AutoMapper;
 using Domain.DTOs;
+using Domain.Entities;
 using Domain.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -30,12 +31,11 @@ namespace API.Controllers
 
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Get([FromBody] AddRequestDto addRequest)
+        public async Task<IActionResult> Add([FromBody()] AddRequestDto addRequest)
         {
 
 
             var salaryDto = await _salaryService.Add(addRequest.Data, addRequest.OverTimeCalculator);
-
 
             return Ok(salaryDto);
 
@@ -46,17 +46,16 @@ namespace API.Controllers
 
 
         [HttpGet("get/{id}")]
-        public async Task<IActionResult> Get( int id)
+        public async Task<IActionResult> Get(int id)
         {
 
-        var salary=  await  _salaryService.Get(id);
-
+            var salary = await _salaryService.Get(id);
             return Ok(salary);
 
         }
 
         [HttpGet("get-range/{id}")]
-        public async Task<IActionResult> GetRange([FromQuery] int id, string start,string end)
+        public async Task<IActionResult> GetRange([FromQuery] int id, string start, string end)
         {
 
             return Ok();
@@ -65,58 +64,23 @@ namespace API.Controllers
 
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update()
+        public async Task<IActionResult> Update(SalaryDto salary)
         {
 
-            return Ok(new string[] { "value1", "value2" });
+            var updatedSalary = await _salaryService.Update(salary);
+
+            return Ok(updatedSalary);
 
         }
 
         [HttpDelete("delete")]
-        public async Task<IActionResult> Dete()
+        public async Task<IActionResult> Delete(SalaryDto salary)
         {
+            await _salaryService.Delete(salary);
 
-            return Ok(new string[] { "value1", "value2" });
+            return Ok();
 
         }
 
-
-
-
-
-
-
-
-        //// GET: api/<SalaryController>
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-
-        //// GET api/<SalaryController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        //// POST api/<SalaryController>
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
-
-        //// PUT api/<SalaryController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/<SalaryController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

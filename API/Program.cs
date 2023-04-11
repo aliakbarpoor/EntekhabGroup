@@ -18,7 +18,7 @@ internal class Program
         builder.Services.AddDbContext<EFContext>(options =>
                             options.UseSqlServer(builder.Configuration.GetConnectionString("AppConnectionString")));
 
-        builder.Services.AddScoped<ISalaryService, SalaryService>();
+       
         builder.Services.ConfigureApplicationServices();
 
 
@@ -28,7 +28,7 @@ internal class Program
         {
             opt.OutputFormatters.Insert(0, new CustomOutputFormatter());
             opt.InputFormatters.Insert(0, new CustomInputFormatter());
-            opt.FormatterMappings.SetMediaTypeMappingForFormat("cu-for", MediaTypeHeaderValue.Parse("text/cu-for"));
+            opt.FormatterMappings.SetMediaTypeMappingForFormat("custom", MediaTypeHeaderValue.Parse("text/custom"));
 
         })
             .AddXmlSerializerFormatters();
@@ -38,9 +38,15 @@ internal class Program
 
         // Configure the HTTP request pipeline.
 
+
+        app.UseSwagger();
+        app.UseSwaggerUI();
+
         app.UseAuthorization();
 
         app.MapControllers();
+
+
 
         app.Run();
     }

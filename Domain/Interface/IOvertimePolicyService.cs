@@ -7,9 +7,8 @@ namespace Domain.Interface
 {
     public interface IOvertimePolicyService
     {
-        public OvetimePolicyService FactoryMethod(double basicSalary, double allowance, int overTimeHuors);
-        public int CalcurlatorA();
-        public int CalcurlatorB();
-        public int CalcurlatorC();
+        public double CalculatorA(double basicSalary, double allowance, int overTimeHuors);
+        public double CalculatorB(double basicSalary, double allowance, int overTimeHuors);
+        public double CalculatorC(double basicSalary, double allowance, int overTimeHuors);
     }
 }

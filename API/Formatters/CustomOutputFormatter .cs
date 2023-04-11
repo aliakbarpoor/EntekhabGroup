@@ -12,7 +12,7 @@ namespace API.Formatters
     {
         public CustomOutputFormatter()
         {
-            SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/cu-for"));
+            SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/custom"));
 
             SupportedEncodings.Add(Encoding.UTF8);
             SupportedEncodings.Add(Encoding.Unicode);
@@ -41,9 +41,9 @@ namespace API.Formatters
 
         private static void FormatData(StringBuilder buffer, SalaryDto salary)
         {
-            buffer.Append("FirstName/LastName/BasicSalary/Allowance/Transportation/Date");
+            buffer.Append("FullName/BasicSalary/Allowance/Transportation/OverTime/Date");
             buffer.AppendLine();
-            buffer.AppendFormat($"{salary.FullName}/{salary.BasicSalary}/{salary.Allowance}/{salary.Transportation}/{salary.Date}");
+            buffer.AppendFormat($"{salary.FullName}/{salary.BasicSalary}/{salary.Allowance}/{salary.Transportation}/{salary.OverTime}/{salary.Date}");
         }
 
 

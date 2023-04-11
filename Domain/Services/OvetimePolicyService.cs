@@ -13,40 +13,30 @@ namespace Domain.Services
         private double _overTimeHuors;
 
 
-        public OvetimePolicyService()
-        {
-            
-        }
+ 
 
 
-        public OvetimePolicyService FactoryMethod(double basicSalary, double allowance, int overTimeHuors)
+
+        public double CalculatorA(double basicSalary, double allowance, int overTimeHuors)
         {
             _basicSalary = basicSalary;
             _allowance = allowance;
-            _overTimeHuors = overTimeHuors;
-
-            return new OvetimePolicyService { _allowance = allowance, _basicSalary = basicSalary, _overTimeHuors = overTimeHuors };
-        }
-        public double CalcurlatorA()
-        {
+            _overTimeHuors = overTimeHuors;     
 
             var overTime = ((_basicSalary + _allowance) / MonthlyWorkingHours) * 1.4 * _overTimeHuors;
             return overTime;
         }
 
-        public int CalcurlatorB()
+        public double CalculatorB(double basicSalary, double allowance, int overTimeHuors)
         {
             throw new NotImplementedException();
         }
 
-        public int CalcurlatorC()
+        public double CalculatorC(double basicSalary, double allowance, int overTimeHuors)
         {
             throw new NotImplementedException();
         }
 
-        int IOvertimePolicyService.CalcurlatorA()
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

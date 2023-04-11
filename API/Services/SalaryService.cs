@@ -1,5 +1,4 @@
-﻿using API.Enums;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.DTOs;
 using Domain.Entities;
 using Domain.Interface;
@@ -30,24 +29,24 @@ namespace API.Services
 
             var salaryToAdd = _mapper.Map<Salary>(salary);
 
-            var policy = _overtimePolicyService.FactoryMethod(salaryToAdd.BasicSalary, salaryToAdd.Allowance, salary.OveTime);
+
 
             double overTimeGrossValue;
             switch (overTimeCalculator)
             {
                 case "CalculatorA":
 
-                    overTimeGrossValue = policy.CalcurlatorA();
+                    overTimeGrossValue = _overtimePolicyService.CalculatorA(salaryToAdd.BasicSalary, salaryToAdd.Allowance, salary.OverTime);
                     break;
                 case "CalculatorB":
-                    overTimeGrossValue = policy.CalcurlatorB();
+                    overTimeGrossValue = _overtimePolicyService.CalculatorB(salaryToAdd.BasicSalary, salaryToAdd.Allowance, salary.OverTime);
                     break;
                 case "CalculatorC":
-                    overTimeGrossValue = policy.CalcurlatorC();
+                    overTimeGrossValue = _overtimePolicyService.CalculatorC(salaryToAdd.BasicSalary, salaryToAdd.Allowance, salary.OverTime);
 
                     break;
                 default:
-                    overTimeGrossValue = policy.CalcurlatorA();
+                    overTimeGrossValue = _overtimePolicyService.CalculatorA(salaryToAdd.BasicSalary, salaryToAdd.Allowance, salary.OverTime);
                     break;
             }
 
@@ -61,9 +60,16 @@ namespace API.Services
 
         }
 
-        public Task Delete(SalaryDto salary)
+        public async Task Delete(SalaryDto salary)
         {
-            throw new NotImplementedException();
+
+            var salaryToDelete = await _repository.Get(salary.Id);
+
+            if (salaryToDelete == null)
+                throw new NullReferenceException();
+
+            await _repository.Delete(salaryToDelete);
+
         }
 
         public Task<List<SalaryDto>> GetRange(DateTime start, DateTime end)
@@ -77,9 +83,13 @@ namespace API.Services
 
         }
 
-        public Task<SalaryDto> Update(SalaryDto salary)
+        public async Task<SalaryDto> Update(SalaryDto salary)
         {
-            throw new NotImplementedException();
+
+            var salaryToUpdate = _mapper.Map<Salary>(salary);
+
+
+            return _mapper.Map<SalaryDto>(await _repository.Update(salaryToUpdate));
         }
 
 
