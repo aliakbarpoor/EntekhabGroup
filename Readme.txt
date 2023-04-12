@@ -1,16 +1,14 @@
 # EntekhabGroup
 
 
-1 .Install Docker Desctop
-
-2 .Download Project from github
+1 .Download Project from github
 https://github.com/aliakbarpoor/EntekhabGroup.git
 
-3. Open Project(.net7)
-4. Opne package manager console 
-5. set default peoject to "Insfrastructure" > Rum Command Update-Database
-6. Set Defalt Project to API
-7. Run Project
+2. Open Project(.net7)
+3. Opne package manager console 
+4. set default peoject to "Insfrastructure" > Rum Command Update-Database
+5. Set Defalt Project to API
+6. Run Project
 
 http://localhost:54325/swagger/index.html
 
